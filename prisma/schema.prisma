@@ -1,0 +1,154 @@
+// This is your Prisma schema file for learning database relationships
+// Learn more: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// USER MODEL
+// This is the main user entity
+// ============================================
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // ONE-TO-ONE RELATIONSHIP
+  // A user has one profile (optional)
+  // The ? makes it optional (nullable)
+  profile   Profile?
+
+  // ONE-TO-MANY RELATIONSHIP
+  // A user can have many posts
+  // The [] means it's a list/array
+  posts     Post[]
+
+  // ONE-TO-MANY RELATIONSHIP
+  // A user can have many comments
+  comments  Comment[]
+
+  @@map("users") // Maps to "users" table in database
+}
+
+// ============================================
+// PROFILE MODEL
+// Demonstrates ONE-TO-ONE relationship
+// ============================================
+model Profile {
+  id        Int      @id @default(autoincrement())
+  bio       String?
+  avatar    String?
+  website   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // ONE-TO-ONE RELATIONSHIP
+  // Each profile belongs to exactly one user
+  // @relation creates the relationship
+  // onDelete: Cascade means if user is deleted, profile is also deleted
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int      @unique // @unique ensures one profile per user
+
+  @@map("profiles")
+}
+
+// ============================================
+// POST MODEL
+// Demonstrates ONE-TO-MANY and MANY-TO-MANY relationships
+// ============================================
+model Post {
+  id        Int      @id @default(autoincrement())
+  title     String
+  content   String?
+  published Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // ONE-TO-MANY RELATIONSHIP (Post belongs to User)
+  // Many posts can belong to one user
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId  Int
+
+  // MANY-TO-MANY RELATIONSHIP
+  // A post can have many categories
+  // Implemented using an explicit join table (PostCategory)
+  categories PostCategory[]
+
+  // ONE-TO-MANY RELATIONSHIP
+  // A post can have many comments
+  comments   Comment[]
+
+  @@map("posts")
+}
+
+// ============================================
+// CATEGORY MODEL
+// Demonstrates MANY-TO-MANY relationship
+// ============================================
+model Category {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  slug      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // MANY-TO-MANY RELATIONSHIP
+  // A category can be associated with many posts
+  // This is the other side of the many-to-many relationship
+  posts     PostCategory[]
+
+  @@map("categories")
+}
+
+// ============================================
+// POST-CATEGORY JOIN TABLE
+// This is an EXPLICIT MANY-TO-MANY relationship table
+// It allows us to store additional data about the relationship
+// ============================================
+model PostCategory {
+  id         Int      @id @default(autoincrement())
+  createdAt  DateTime @default(now())
+
+  // Reference to Post
+  post       Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId     Int
+
+  // Reference to Category
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  categoryId Int
+
+  // This ensures a post can't have the same category twice
+  @@unique([postId, categoryId])
+  @@map("post_categories")
+}
+
+// ============================================
+// COMMENT MODEL
+// Demonstrates multiple ONE-TO-MANY relationships
+// ============================================
+model Comment {
+  id        Int      @id @default(autoincrement())
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // ONE-TO-MANY RELATIONSHIP
+  // Comment belongs to a Post
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId    Int
+
+  // ONE-TO-MANY RELATIONSHIP
+  // Comment belongs to a User (author)
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId  Int
+
+  @@map("comments")
+}
