@@ -21,13 +21,16 @@ main
 ## 🎯 How to Use These Branches
 
 ### Option 1: View All at Once (Recommended for Quick Start)
+
 Stay on `main` branch - it has everything merged:
+
 ```bash
 # You're already here!
 git checkout main
 ```
 
 ### Option 2: Step-by-Step Learning (Recommended for Deep Learning)
+
 Checkout each branch in order to see the progressive development:
 
 ```bash
@@ -68,6 +71,7 @@ git checkout main
 ```
 
 ### Option 3: Compare Changes
+
 See what each branch added:
 
 ```bash
@@ -82,6 +86,7 @@ git diff --name-status 01-setup-and-configuration 02-prisma-service-module
 ```
 
 ### Option 4: View Specific Files from Branches
+
 Look at files without switching branches:
 
 ```bash
@@ -101,12 +106,14 @@ git show 01-setup-and-configuration:prisma/schema.prisma
 **Focus:** Project foundation and Prisma setup
 
 **Files Added:**
+
 - `docker-compose.yml` - PostgreSQL container
 - `env.example` - Environment variables template
 - `prisma.config.ts` - Prisma configuration
 - `prisma/schema.prisma` - Database schema with all models
 
 **Learning Objectives:**
+
 - Understand Docker setup for PostgreSQL
 - Learn Prisma schema syntax
 - Understand relationship definitions
@@ -115,6 +122,7 @@ git show 01-setup-and-configuration:prisma/schema.prisma
 **Study Time:** 30 minutes
 
 **Commands to Try:**
+
 ```bash
 git checkout 01-setup-and-configuration
 cat prisma/schema.prisma  # Read the schema
@@ -128,10 +136,12 @@ cat docker-compose.yml     # See Docker config
 **Focus:** Integrating Prisma with NestJS
 
 **Files Added:**
+
 - `src/prisma/prisma.service.ts` - Database service
 - `src/prisma/prisma.module.ts` - Prisma module
 
 **Learning Objectives:**
+
 - Prisma Client setup in NestJS
 - Service lifecycle hooks
 - Global module pattern
@@ -140,6 +150,7 @@ cat docker-compose.yml     # See Docker config
 **Study Time:** 20 minutes
 
 **Commands to Try:**
+
 ```bash
 git checkout 02-prisma-service-module
 cat src/prisma/prisma.service.ts  # Study the service
@@ -152,11 +163,13 @@ cat src/prisma/prisma.service.ts  # Study the service
 **Focus:** ONE-TO-ONE relationships
 
 **Files Added:**
+
 - `src/users/users.service.ts` - Business logic
 - `src/users/users.controller.ts` - API endpoints
 - `src/users/users.module.ts` - Module definition
 
 **Learning Objectives:**
+
 - ONE-TO-ONE relationship setup
 - Nested creates
 - Optional relationships
@@ -166,6 +179,7 @@ cat src/prisma/prisma.service.ts  # Study the service
 **Study Time:** 1 hour
 
 **Commands to Try:**
+
 ```bash
 git checkout 03-one-to-one-users-profiles
 
@@ -183,11 +197,13 @@ git diff 02-prisma-service-module..03-one-to-one-users-profiles
 **Focus:** Complex relationships
 
 **Files Added:**
+
 - `src/posts/posts.service.ts`
 - `src/posts/posts.controller.ts`
 - `src/posts/posts.module.ts`
 
 **Learning Objectives:**
+
 - ONE-TO-MANY from child side
 - MANY-TO-MANY with explicit join table
 - Multiple relationships on one model
@@ -197,6 +213,7 @@ git diff 02-prisma-service-module..03-one-to-one-users-profiles
 **Study Time:** 1.5 hours
 
 **Commands to Try:**
+
 ```bash
 git checkout 04-one-to-many-and-many-to-many-posts
 cat src/posts/posts.service.ts
@@ -212,11 +229,13 @@ git diff 03-one-to-one-users-profiles..04-one-to-many-and-many-to-many-posts src
 **Focus:** MANY-TO-MANY from the other side
 
 **Files Added:**
+
 - `src/categories/categories.service.ts`
 - `src/categories/categories.controller.ts`
 - `src/categories/categories.module.ts`
 
 **Learning Objectives:**
+
 - Inverse side of MANY-TO-MANY
 - Unique constraints
 - Error handling
@@ -225,6 +244,7 @@ git diff 03-one-to-one-users-profiles..04-one-to-many-and-many-to-many-posts src
 **Study Time:** 45 minutes
 
 **Commands to Try:**
+
 ```bash
 git checkout 05-categories-many-to-many
 cat src/categories/categories.service.ts
@@ -237,11 +257,13 @@ cat src/categories/categories.service.ts
 **Focus:** Multiple relationships on one model
 
 **Files Added:**
+
 - `src/comments/comments.service.ts`
 - `src/comments/comments.controller.ts`
 - `src/comments/comments.module.ts`
 
 **Learning Objectives:**
+
 - Multiple foreign keys
 - Querying by different relationships
 - Filtering options
@@ -249,6 +271,7 @@ cat src/categories/categories.service.ts
 **Study Time:** 30 minutes
 
 **Commands to Try:**
+
 ```bash
 git checkout 06-comments-multiple-foreign-keys
 cat src/comments/comments.service.ts
@@ -261,11 +284,13 @@ cat src/comments/comments.service.ts
 **Focus:** Complete application setup
 
 **Files Modified/Added:**
+
 - `src/app.module.ts` - Import all modules
 - `src/main.ts` - Bootstrap configuration
 - `prisma/seed.ts` - Sample data script
 
 **Learning Objectives:**
+
 - Module integration
 - Application bootstrap
 - Seeding database with relationships
@@ -274,6 +299,7 @@ cat src/comments/comments.service.ts
 **Study Time:** 45 minutes
 
 **Commands to Try:**
+
 ```bash
 git checkout 07-app-integration-and-seed
 cat src/app.module.ts
@@ -287,12 +313,14 @@ cat prisma/seed.ts  # See how to create data with relationships
 **Focus:** Learning materials
 
 **Files Added:**
+
 - `README.md` - Complete documentation
 - `QUICK_START.md` - Quick setup guide
 - `RELATIONSHIPS_GUIDE.md` - Relationships deep dive
 - `LEARNING_ROADMAP.md` - 7-day learning path
 
 **Learning Objectives:**
+
 - Documentation structure
 - Learning resources
 - API documentation
@@ -305,6 +333,7 @@ cat prisma/seed.ts  # See how to create data with relationships
 ## 🎓 Recommended Learning Paths
 
 ### Path 1: Fast Track (2-3 hours)
+
 ```bash
 # 1. Read README.md on main
 git checkout main
@@ -322,6 +351,7 @@ curl http://localhost:3000/users
 ```
 
 ### Path 2: Thorough Learning (1-2 days)
+
 ```bash
 # Day 1: Setup and ONE-TO-ONE
 git checkout 01-setup-and-configuration  # Study 30 min
@@ -340,6 +370,7 @@ npm run start:dev
 ```
 
 ### Path 3: Deep Dive (1 week)
+
 Follow the [LEARNING_ROADMAP.md](./LEARNING_ROADMAP.md) and checkout corresponding branches for each day.
 
 ---
@@ -347,6 +378,7 @@ Follow the [LEARNING_ROADMAP.md](./LEARNING_ROADMAP.md) and checkout correspondi
 ## 💡 Tips for Using Branches
 
 ### 1. Keep Main Safe
+
 ```bash
 # Always work on a new branch
 git checkout -b my-experiments
@@ -354,6 +386,7 @@ git checkout -b my-experiments
 ```
 
 ### 2. Compare Your Changes
+
 ```bash
 # See what you changed
 git diff main
@@ -363,6 +396,7 @@ git status
 ```
 
 ### 3. Reset If Needed
+
 ```bash
 # Discard all local changes
 git checkout .
@@ -372,6 +406,7 @@ git reset --hard
 ```
 
 ### 4. Search Across Branches
+
 ```bash
 # Find where something is defined
 git grep "createWithProfile" $(git rev-list --all)
@@ -381,6 +416,7 @@ git grep "ONE-TO-ONE" 03-one-to-one-users-profiles
 ```
 
 ### 5. View History
+
 ```bash
 # See all commits
 git log --oneline --graph --all
@@ -397,31 +433,37 @@ git show <commit-hash>
 ## 🔍 Quick Reference
 
 ### See All Branches
+
 ```bash
 git branch -a
 ```
 
 ### Switch Branches
+
 ```bash
 git checkout <branch-name>
 ```
 
 ### View Changes
+
 ```bash
 git diff <branch1> <branch2>
 ```
 
 ### View File from Branch
+
 ```bash
 git show <branch>:<file-path>
 ```
 
 ### Search Code
+
 ```bash
 git grep "<search-term>" <branch>
 ```
 
 ### Go Back to Main
+
 ```bash
 git checkout main
 ```
@@ -506,4 +548,3 @@ After studying all branches:
 **Happy Learning!** 🚀
 
 Use these branches as a reference whenever you need to understand how a specific relationship or feature is implemented.
-

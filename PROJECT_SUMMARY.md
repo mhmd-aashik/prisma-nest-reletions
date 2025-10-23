@@ -9,6 +9,7 @@ This project provides a complete, production-ready example of using Prisma ORM w
 ## 📦 What's Included
 
 ### 🗄️ Database Models
+
 - **User** - Main user entity
 - **Profile** - User profile (ONE-TO-ONE with User)
 - **Post** - Blog posts (ONE-TO-MANY with User, MANY-TO-MANY with Categories)
@@ -19,18 +20,21 @@ This project provides a complete, production-ready example of using Prisma ORM w
 ### 🔗 Relationship Types Covered
 
 #### 1. ONE-TO-ONE
+
 - **User ↔ Profile**
 - Each user has one optional profile
 - Profile belongs to exactly one user
 - Demonstrates: `@unique`, optional relationships, nested creates, cascade delete
 
 #### 2. ONE-TO-MANY
+
 - **User → Posts** (A user can write many posts)
 - **User → Comments** (A user can write many comments)
 - **Post → Comments** (A post can have many comments)
 - Demonstrates: Arrays in schema, foreign keys, filtering, counting
 
 #### 3. MANY-TO-MANY
+
 - **Posts ↔ Categories**
 - Explicit join table (PostCategory) with additional fields
 - Demonstrates: Join tables, connect operations, querying through relationships
@@ -79,6 +83,7 @@ prisma-learn/
 ## 🚀 Getting Started
 
 ### Quick Start (5 minutes)
+
 ```bash
 # 1. Install dependencies
 npm install
@@ -107,18 +112,21 @@ curl http://localhost:3000/users
 ## 📚 Learning Resources
 
 ### For Beginners
+
 1. Start with [QUICK_START.md](./QUICK_START.md)
 2. Follow [LEARNING_ROADMAP.md](./LEARNING_ROADMAP.md) (7-day plan)
 3. Explore the code in `src/` directory
 4. Try the API endpoints
 
 ### For In-Depth Learning
+
 1. Study [RELATIONSHIPS_GUIDE.md](./RELATIONSHIPS_GUIDE.md)
 2. Read the Prisma schema with comments
 3. Examine service implementations
 4. Experiment with Prisma Studio
 
 ### Reference
+
 - [README.md](./README.md) - Complete API documentation
 - Schema file - `prisma/schema.prisma`
 - Seed script - `prisma/seed.ts`
@@ -128,12 +136,14 @@ curl http://localhost:3000/users
 ## 🎯 What You'll Learn
 
 ### Prisma Fundamentals
+
 - ✅ Schema definition and syntax
 - ✅ Prisma Client generation
 - ✅ Database migrations
 - ✅ CRUD operations
 
 ### Relationships
+
 - ✅ ONE-TO-ONE setup and usage
 - ✅ ONE-TO-MANY from both sides
 - ✅ MANY-TO-MANY (implicit and explicit)
@@ -141,6 +151,7 @@ curl http://localhost:3000/users
 - ✅ Self-referential relationships concepts
 
 ### Advanced Operations
+
 - ✅ Nested creates (create related entities in one operation)
 - ✅ Nested includes (query deep relationships)
 - ✅ Filtering with `some`, `every`, `none`
@@ -150,6 +161,7 @@ curl http://localhost:3000/users
 - ✅ Transaction support
 
 ### NestJS Integration
+
 - ✅ Prisma service setup
 - ✅ Dependency injection
 - ✅ Module organization
@@ -161,7 +173,9 @@ curl http://localhost:3000/users
 ## 🌟 Key Features
 
 ### Comprehensive Examples
+
 Every relationship type includes:
+
 - Schema definition with comments
 - Create operations (simple and nested)
 - Read operations (with and without includes)
@@ -170,6 +184,7 @@ Every relationship type includes:
 - Filtering and pagination examples
 
 ### Production Patterns
+
 - Global Prisma module
 - Service-based architecture
 - Error handling
@@ -179,6 +194,7 @@ Every relationship type includes:
 - Docker containerization
 
 ### Learning-Focused
+
 - Extensive inline comments
 - Real-world examples
 - Sample data with seed script
@@ -191,6 +207,7 @@ Every relationship type includes:
 ## 🔧 Available Commands
 
 ### Docker
+
 ```bash
 npm run docker:up      # Start PostgreSQL
 npm run docker:down    # Stop PostgreSQL
@@ -198,6 +215,7 @@ npm run docker:logs    # View logs
 ```
 
 ### Prisma
+
 ```bash
 npm run prisma:generate  # Generate Prisma Client
 npm run prisma:migrate   # Run migrations
@@ -207,6 +225,7 @@ npm run prisma:reset     # Reset database
 ```
 
 ### Application
+
 ```bash
 npm run start:dev    # Development mode (hot reload)
 npm run start:prod   # Production mode
@@ -215,6 +234,7 @@ npm run lint         # Check code quality
 ```
 
 ### All-in-One
+
 ```bash
 npm run setup   # Docker up + Migrate + Generate
 ```
@@ -226,6 +246,7 @@ npm run setup   # Docker up + Migrate + Generate
 The project is organized into branches for step-by-step learning:
 
 ### Branch Structure
+
 1. **01-setup-and-configuration** - Docker, Prisma setup
 2. **02-prisma-service-module** - NestJS integration
 3. **03-one-to-one-users-profiles** - ONE-TO-ONE relationships
@@ -236,6 +257,7 @@ The project is organized into branches for step-by-step learning:
 8. **08-documentation-and-guides** - Learning materials
 
 ### View History
+
 ```bash
 # See all commits
 git log --oneline --graph --all
@@ -252,31 +274,37 @@ git diff main 03-one-to-one-users-profiles
 ## 🎓 Learning Path
 
 ### Day 1: Setup & Basics
+
 - ✅ Set up project
 - ✅ Understand schema structure
 - ✅ Learn Prisma basics
 
 ### Day 2: ONE-TO-ONE
+
 - ✅ Study User ↔ Profile
 - ✅ Practice nested creates
 - ✅ Understand cascade delete
 
 ### Day 3: ONE-TO-MANY
+
 - ✅ Study User → Posts
 - ✅ Study Post → Comments
 - ✅ Practice filtering and counting
 
 ### Day 4-5: MANY-TO-MANY
+
 - ✅ Study Posts ↔ Categories
 - ✅ Understand join tables
 - ✅ Practice complex queries
 
 ### Day 6: Advanced
+
 - ✅ Deep nested queries
 - ✅ Transactions
 - ✅ Aggregations
 
 ### Day 7: Real-World
+
 - ✅ Build your own project
 - ✅ Apply all concepts
 
@@ -287,6 +315,7 @@ git diff main 03-one-to-one-users-profiles
 ## 🌐 API Endpoints
 
 ### Users (ONE-TO-ONE with Profile)
+
 - `GET /users` - List all users
 - `GET /users/:id` - Get user with relationships
 - `POST /users/with-profile` - Create user with profile
@@ -294,6 +323,7 @@ git diff main 03-one-to-one-users-profiles
 - `DELETE /users/:id` - Delete (cascade to profile)
 
 ### Posts (ONE-TO-MANY & MANY-TO-MANY)
+
 - `GET /posts` - List all posts
 - `POST /posts/with-categories` - Create with categories
 - `POST /posts/:id/categories` - Add categories
@@ -301,11 +331,13 @@ git diff main 03-one-to-one-users-profiles
 - `POST /posts/:id/comments` - Add comment
 
 ### Categories (MANY-TO-MANY with Posts)
+
 - `GET /categories` - List all categories
 - `GET /categories/popular` - Most used categories
 - `GET /categories/:id` - Get with all posts
 
 ### Comments (Multiple ONE-TO-MANY)
+
 - `GET /comments/by-post/:postId` - Comments for post
 - `GET /comments/by-user/:userId` - Comments by user
 - `POST /comments` - Create comment
@@ -342,21 +374,25 @@ git diff main 03-one-to-one-users-profiles
 This project serves as a reference for:
 
 ### 1. Learning Prisma
+
 - Understand relationship syntax
 - Learn querying techniques
 - Master CRUD operations
 
 ### 2. Building APIs
+
 - REST API structure
 - Service-based architecture
 - Error handling patterns
 
 ### 3. Starting New Projects
+
 - Copy the structure
 - Adapt to your needs
 - Production-ready patterns
 
 ### 4. Interview Preparation
+
 - Database relationships
 - ORM usage
 - NestJS patterns
@@ -407,17 +443,21 @@ This project serves as a reference for:
 ## 📞 Support & Resources
 
 ### Official Documentation
+
 - [Prisma Docs](https://www.prisma.io/docs)
 - [NestJS Docs](https://docs.nestjs.com)
 - [PostgreSQL Docs](https://www.postgresql.org/docs)
 
 ### Community
+
 - [Prisma Discord](https://pris.ly/discord)
 - [Prisma GitHub](https://github.com/prisma/prisma)
 - [Stack Overflow - Prisma Tag](https://stackoverflow.com/questions/tagged/prisma)
 
 ### This Project
+
 All documentation is in the root folder:
+
 - `README.md` - Main documentation
 - `QUICK_START.md` - Setup guide
 - `RELATIONSHIPS_GUIDE.md` - Relationships deep dive
@@ -440,7 +480,7 @@ All documentation is in the root folder:
 ✅ Input validation setup  
 ✅ Prisma Studio integration  
 ✅ Progressive learning path  
-✅ Real-world patterns  
+✅ Real-world patterns
 
 ---
 
@@ -459,6 +499,7 @@ This project is for educational purposes. Feel free to use, modify, and build up
 ## 🎉 Congratulations!
 
 You now have a complete Prisma ORM learning environment with:
+
 - Working code examples
 - Comprehensive documentation
 - Structured learning path
@@ -470,7 +511,6 @@ You now have a complete Prisma ORM learning environment with:
 
 ---
 
-*Last updated: October 2025*
-*Project: Prisma ORM Learning with NestJS*
-*Focus: Database Relationships*
-
+_Last updated: October 2025_
+_Project: Prisma ORM Learning with NestJS_
+_Focus: Database Relationships_
