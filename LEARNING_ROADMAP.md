@@ -5,9 +5,11 @@ Follow this roadmap to master Prisma ORM and database relationships step by step
 ## 📚 Learning Phases
 
 ### Phase 1: Setup & Basics (Day 1)
+
 **Goal:** Get the project running and understand the basics
 
 #### Tasks:
+
 - [ ] Follow [QUICK_START.md](./QUICK_START.md) to set up the project
 - [ ] Start Docker PostgreSQL
 - [ ] Run migrations and seed data
@@ -15,21 +17,25 @@ Follow this roadmap to master Prisma ORM and database relationships step by step
 - [ ] Start the app (`npm run start:dev`)
 
 #### Learning Points:
+
 - What is Prisma?
 - How does Prisma Client work?
 - Understanding `schema.prisma` file
 - Database connection strings
 
 #### Resources to Study:
+
 - [prisma/schema.prisma](./prisma/schema.prisma) - Read all comments
 - [src/prisma/prisma.service.ts](./src/prisma/prisma.service.ts) - How Prisma integrates with NestJS
 
 ---
 
 ### Phase 2: ONE-TO-ONE Relationships (Day 2)
+
 **Goal:** Master ONE-TO-ONE relationships
 
 #### Tasks:
+
 - [ ] Read User and Profile models in schema
 - [ ] Study [src/users/users.service.ts](./src/users/users.service.ts)
 - [ ] Create users with profiles via API
@@ -37,6 +43,7 @@ Follow this roadmap to master Prisma ORM and database relationships step by step
 - [ ] View relationships in Prisma Studio
 
 #### Practical Exercises:
+
 ```bash
 # 1. Create user with profile
 curl -X POST http://localhost:3000/users/with-profile \
@@ -63,6 +70,7 @@ curl -X DELETE http://localhost:3000/users/1
 ```
 
 #### Key Concepts to Understand:
+
 - `@unique` constraint on foreign key
 - Optional relationships (`Profile?`)
 - Nested create operations
@@ -70,7 +78,9 @@ curl -X DELETE http://localhost:3000/users/1
 - `include` vs `select`
 
 #### Challenge:
+
 Create a new ONE-TO-ONE relationship:
+
 - Add `UserSettings` model
 - Each user has optional settings
 - Include fields like theme, language, notifications
@@ -78,9 +88,11 @@ Create a new ONE-TO-ONE relationship:
 ---
 
 ### Phase 3: ONE-TO-MANY Relationships (Day 3)
+
 **Goal:** Master ONE-TO-MANY relationships
 
 #### Tasks:
+
 - [ ] Read User and Post models
 - [ ] Read Post and Comment models
 - [ ] Study [src/posts/posts.service.ts](./src/posts/posts.service.ts)
@@ -89,6 +101,7 @@ Create a new ONE-TO-ONE relationship:
 - [ ] Query nested relationships
 
 #### Practical Exercises:
+
 ```bash
 # 1. Create a post
 curl -X POST http://localhost:3000/posts \
@@ -116,6 +129,7 @@ curl http://localhost:3000/comments/by-post/1
 ```
 
 #### Key Concepts to Understand:
+
 - Foreign keys without `@unique`
 - Array notation in schema (`Post[]`)
 - Filtering related records (`where`, `some`, `every`, `none`)
@@ -124,6 +138,7 @@ curl http://localhost:3000/comments/by-post/1
 - Nested includes
 
 #### Challenges:
+
 1. **Add Likes System:**
    - Create `Like` model
    - User can like many posts (ONE-TO-MANY)
@@ -137,15 +152,18 @@ curl http://localhost:3000/comments/by-post/1
 ---
 
 ### Phase 4: MANY-TO-MANY Relationships (Day 4-5)
+
 **Goal:** Master MANY-TO-MANY relationships
 
 #### Tasks:
+
 - [ ] Read Post and Category models
 - [ ] Understand PostCategory join table
 - [ ] Study MANY-TO-MANY operations
 - [ ] Compare implicit vs explicit MANY-TO-MANY
 
 #### Practical Exercises:
+
 ```bash
 # 1. Create categories
 curl -X POST http://localhost:3000/categories \
@@ -180,6 +198,7 @@ curl -X DELETE http://localhost:3000/posts/1/categories/2
 ```
 
 #### Key Concepts to Understand:
+
 - Explicit vs Implicit MANY-TO-MANY
 - Join table design
 - `@@unique([postId, categoryId])` constraint
@@ -188,6 +207,7 @@ curl -X DELETE http://localhost:3000/posts/1/categories/2
 - Additional fields in join table
 
 #### Challenges:
+
 1. **Add Tags System:**
    - Create implicit MANY-TO-MANY between Post and Tag
    - Compare with explicit PostCategory
@@ -200,9 +220,11 @@ curl -X DELETE http://localhost:3000/posts/1/categories/2
 ---
 
 ### Phase 5: Advanced Queries (Day 6)
+
 **Goal:** Master complex queries
 
 #### Tasks:
+
 - [ ] Read [RELATIONSHIPS_GUIDE.md](./RELATIONSHIPS_GUIDE.md) Advanced section
 - [ ] Practice nested includes
 - [ ] Use filtering operators
@@ -212,6 +234,7 @@ curl -X DELETE http://localhost:3000/posts/1/categories/2
 #### Exercises:
 
 **1. Deep Nested Query:**
+
 ```typescript
 // Get user with posts, categories, and comments with authors
 const user = await prisma.user.findUnique({
@@ -222,25 +245,26 @@ const user = await prisma.user.findUnique({
       include: {
         categories: {
           include: {
-            category: true
-          }
+            category: true,
+          },
         },
         comments: {
           include: {
             author: {
               include: {
-                profile: true
-              }
-            }
-          }
-        }
-      }
-    }
-  }
+                profile: true,
+              },
+            },
+          },
+        },
+      },
+    },
+  },
 });
 ```
 
 **2. Complex Filtering:**
+
 ```typescript
 // Find users who:
 // - Have at least 5 posts
@@ -251,59 +275,61 @@ const users = await prisma.user.findMany({
     AND: [
       {
         posts: {
-          some: {}
-        }
+          some: {},
+        },
       },
       {
         comments: {
-          some: {}
-        }
+          some: {},
+        },
       },
       {
         profile: {
-          isNot: null
-        }
-      }
-    ]
+          isNot: null,
+        },
+      },
+    ],
   },
   include: {
     _count: {
       select: {
         posts: true,
-        comments: true
-      }
-    }
-  }
+        comments: true,
+      },
+    },
+  },
 });
 ```
 
 **3. Transaction Example:**
+
 ```typescript
 // Create user, profile, and first post in transaction
 const result = await prisma.$transaction(async (tx) => {
   const user = await tx.user.create({
-    data: { email: "new@example.com" }
+    data: { email: 'new@example.com' },
   });
-  
+
   const profile = await tx.profile.create({
     data: {
-      bio: "New user",
-      userId: user.id
-    }
+      bio: 'New user',
+      userId: user.id,
+    },
   });
-  
+
   const post = await tx.post.create({
     data: {
-      title: "First Post",
-      authorId: user.id
-    }
+      title: 'First Post',
+      authorId: user.id,
+    },
   });
-  
+
   return { user, profile, post };
 });
 ```
 
 #### Challenges:
+
 1. Find all posts that have comments from their own author
 2. Get the top 10 most active users (by posts + comments count)
 3. Find categories with no posts
@@ -312,9 +338,11 @@ const result = await prisma.$transaction(async (tx) => {
 ---
 
 ### Phase 6: Real-World Patterns (Day 7)
+
 **Goal:** Apply knowledge to real scenarios
 
 #### Tasks:
+
 - [ ] Implement soft delete
 - [ ] Add full-text search
 - [ ] Implement pagination
@@ -324,18 +352,21 @@ const result = await prisma.$transaction(async (tx) => {
 #### Practical Projects:
 
 **1. Blog System Enhancement:**
+
 - Add post drafts and publish workflow
 - Implement featured posts
 - Add post series (posts can belong to a series)
 - Track post revisions
 
 **2. Social Features:**
+
 - Implement follower system
 - Add post bookmarks/saves
 - Implement user mentions in comments
 - Add notification system
 
 **3. Analytics:**
+
 - Track popular posts
 - Calculate user engagement scores
 - Generate category statistics
@@ -348,6 +379,7 @@ const result = await prisma.$transaction(async (tx) => {
 Track your progress:
 
 ### Core Concepts
+
 - [ ] Understand Prisma schema syntax
 - [ ] Know how to define models
 - [ ] Understand relationship types
@@ -355,6 +387,7 @@ Track your progress:
 - [ ] Understand Prisma Client generation
 
 ### ONE-TO-ONE
+
 - [ ] Define in schema
 - [ ] Create with nested data
 - [ ] Query both directions
@@ -362,6 +395,7 @@ Track your progress:
 - [ ] Handle optional relationships
 
 ### ONE-TO-MANY
+
 - [ ] Define in schema
 - [ ] Create parent with children
 - [ ] Create child for parent
@@ -370,6 +404,7 @@ Track your progress:
 - [ ] Implement pagination
 
 ### MANY-TO-MANY
+
 - [ ] Understand implicit vs explicit
 - [ ] Create with join table
 - [ ] Add/remove relationships
@@ -378,6 +413,7 @@ Track your progress:
 - [ ] Store extra data in join table
 
 ### Advanced
+
 - [ ] Deep nested queries
 - [ ] Complex filtering (some, every, none)
 - [ ] Aggregations and counting
@@ -393,12 +429,14 @@ Track your progress:
 Apply everything you learned:
 
 ### 1. E-Commerce Platform
+
 - Products (categories, tags, variants)
 - Orders (items, shipping, payment)
 - Reviews (ratings, helpful votes)
 - Users (addresses, wishlists, cart)
 
 ### 2. Social Media Platform
+
 - Posts (images, hashtags, mentions)
 - Comments (nested replies)
 - Likes, shares, saves
@@ -406,6 +444,7 @@ Apply everything you learned:
 - Messages (conversations)
 
 ### 3. Learning Management System
+
 - Courses (modules, lessons, quizzes)
 - Enrollments
 - Progress tracking
@@ -413,6 +452,7 @@ Apply everything you learned:
 - Discussions
 
 ### 4. Project Management Tool
+
 - Projects (tasks, milestones)
 - Team members (roles, permissions)
 - Comments and attachments
@@ -424,16 +464,19 @@ Apply everything you learned:
 ## 📖 Additional Resources
 
 ### Official Documentation
+
 - [Prisma Docs](https://www.prisma.io/docs)
 - [Prisma Schema Reference](https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference)
 - [Prisma Client API](https://www.prisma.io/docs/reference/api-reference/prisma-client-reference)
 
 ### This Project
+
 - [README.md](./README.md) - Full documentation
 - [RELATIONSHIPS_GUIDE.md](./RELATIONSHIPS_GUIDE.md) - Detailed relationship guide
 - [QUICK_START.md](./QUICK_START.md) - Setup guide
 
 ### Community
+
 - [Prisma Discord](https://pris.ly/discord)
 - [Prisma GitHub](https://github.com/prisma/prisma)
 - [Stack Overflow](https://stackoverflow.com/questions/tagged/prisma)
@@ -471,4 +514,3 @@ You've mastered Prisma when you can:
 Good luck on your Prisma journey! 🚀
 
 Remember: **Practice is key. Build real projects!**
-
