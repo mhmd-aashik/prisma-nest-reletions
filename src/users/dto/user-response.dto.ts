@@ -2,7 +2,7 @@ import { Exclude, Expose, Type } from 'class-transformer';
 
 /**
  * PROFILE RESPONSE DTO
- * 
+ *
  * Controls what profile data is sent to clients
  */
 export class ProfileResponseDto {
@@ -31,13 +31,13 @@ export class ProfileResponseDto {
 
 /**
  * USER RESPONSE DTO
- * 
+ *
  * Controls what user data is sent to clients.
  * This is important for:
  * - Hiding sensitive fields (like passwords if you had them)
  * - Controlling API response shape
  * - Consistent API responses
- * 
+ *
  * Note: This example doesn't have sensitive data, but in real apps:
  * - Password hashes should be @Exclude()
  * - Internal IDs might be @Exclude()
@@ -67,4 +67,3 @@ export class UserResponseDto {
   // @Exclude()
   // password: string;
 }
-

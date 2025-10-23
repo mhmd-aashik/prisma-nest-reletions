@@ -1,11 +1,17 @@
-import { IsEmail, IsNotEmpty, IsOptional, IsString, MinLength } from 'class-validator';
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  MinLength,
+} from 'class-validator';
 
 /**
  * CREATE USER DTO
- * 
+ *
  * This DTO defines what data is required to create a user.
  * It validates input before it reaches the database.
- * 
+ *
  * Benefits:
  * - Input validation
  * - Type safety for API layer
@@ -22,4 +28,3 @@ export class CreateUserDto {
   @MinLength(2, { message: 'Name must be at least 2 characters long' })
   name?: string;
 }
-

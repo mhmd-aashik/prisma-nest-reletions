@@ -2,7 +2,7 @@ import { IsOptional, IsString, IsUrl, MinLength } from 'class-validator';
 
 /**
  * UPDATE PROFILE DTO
- * 
+ *
  * All fields are optional since this is for PATCH operations.
  * Users can update just one field if they want.
  */
@@ -20,4 +20,3 @@ export class UpdateProfileDto {
   @IsOptional()
   website?: string;
 }
-

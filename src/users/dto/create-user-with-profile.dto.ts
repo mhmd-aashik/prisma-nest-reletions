@@ -1,9 +1,17 @@
-import { IsEmail, IsNotEmpty, IsOptional, IsString, IsUrl, MinLength, ValidateNested } from 'class-validator';
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  IsUrl,
+  MinLength,
+  ValidateNested,
+} from 'class-validator';
 import { Type } from 'class-transformer';
 
 /**
  * PROFILE DTO (Nested)
- * 
+ *
  * This is used as a nested object within CreateUserWithProfileDto
  */
 export class CreateProfileDto {
@@ -23,7 +31,7 @@ export class CreateProfileDto {
 
 /**
  * CREATE USER WITH PROFILE DTO
- * 
+ *
  * Demonstrates:
  * - Nested validation with @ValidateNested
  * - Combining multiple objects
@@ -44,4 +52,3 @@ export class CreateUserWithProfileDto {
   @IsNotEmpty({ message: 'Profile data is required' })
   profile: CreateProfileDto;
 }
-

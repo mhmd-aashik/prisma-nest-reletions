@@ -15,6 +15,7 @@ Wait for: `✅ Database connected successfully`
 ## ✅ Valid Requests (Should Work)
 
 ### 1. Create User (Valid)
+
 ```bash
 curl -X POST http://localhost:3000/users \
   -H "Content-Type: application/json" \
@@ -29,6 +30,7 @@ curl -X POST http://localhost:3000/users \
 ---
 
 ### 2. Create User with Profile (Valid)
+
 ```bash
 curl -X POST http://localhost:3000/users/with-profile \
   -H "Content-Type: application/json" \
@@ -50,6 +52,7 @@ curl -X POST http://localhost:3000/users/with-profile \
 ## ❌ Invalid Requests (Should Fail with Validation Errors)
 
 ### 1. Invalid Email Format
+
 ```bash
 curl -X POST http://localhost:3000/users \
   -H "Content-Type: application/json" \
@@ -60,12 +63,11 @@ curl -X POST http://localhost:3000/users \
 ```
 
 **Expected Error:**
+
 ```json
 {
   "statusCode": 400,
-  "message": [
-    "Please provide a valid email address"
-  ],
+  "message": ["Please provide a valid email address"],
   "error": "Bad Request"
 }
 ```
@@ -73,6 +75,7 @@ curl -X POST http://localhost:3000/users \
 ---
 
 ### 2. Missing Required Field
+
 ```bash
 curl -X POST http://localhost:3000/users \
   -H "Content-Type: application/json" \
@@ -82,13 +85,11 @@ curl -X POST http://localhost:3000/users \
 ```
 
 **Expected Error:**
+
 ```json
 {
   "statusCode": 400,
-  "message": [
-    "Email is required",
-    "Please provide a valid email address"
-  ],
+  "message": ["Email is required", "Please provide a valid email address"],
   "error": "Bad Request"
 }
 ```
@@ -96,6 +97,7 @@ curl -X POST http://localhost:3000/users \
 ---
 
 ### 3. Name Too Short
+
 ```bash
 curl -X POST http://localhost:3000/users \
   -H "Content-Type: application/json" \
@@ -106,12 +108,11 @@ curl -X POST http://localhost:3000/users \
 ```
 
 **Expected Error:**
+
 ```json
 {
   "statusCode": 400,
-  "message": [
-    "Name must be at least 2 characters long"
-  ],
+  "message": ["Name must be at least 2 characters long"],
   "error": "Bad Request"
 }
 ```
@@ -119,6 +120,7 @@ curl -X POST http://localhost:3000/users \
 ---
 
 ### 4. Bio Too Short (Nested Validation)
+
 ```bash
 curl -X POST http://localhost:3000/users/with-profile \
   -H "Content-Type: application/json" \
@@ -132,12 +134,11 @@ curl -X POST http://localhost:3000/users/with-profile \
 ```
 
 **Expected Error:**
+
 ```json
 {
   "statusCode": 400,
-  "message": [
-    "profile.bio must be longer than or equal to 10 characters"
-  ],
+  "message": ["profile.bio must be longer than or equal to 10 characters"],
   "error": "Bad Request"
 }
 ```
@@ -145,6 +146,7 @@ curl -X POST http://localhost:3000/users/with-profile \
 ---
 
 ### 5. Invalid URL
+
 ```bash
 curl -X POST http://localhost:3000/users/with-profile \
   -H "Content-Type: application/json" \
@@ -159,12 +161,11 @@ curl -X POST http://localhost:3000/users/with-profile \
 ```
 
 **Expected Error:**
+
 ```json
 {
   "statusCode": 400,
-  "message": [
-    "Website must be a valid URL"
-  ],
+  "message": ["Website must be a valid URL"],
   "error": "Bad Request"
 }
 ```
@@ -172,6 +173,7 @@ curl -X POST http://localhost:3000/users/with-profile \
 ---
 
 ### 6. Extra Fields (Automatically Stripped)
+
 ```bash
 curl -X POST http://localhost:3000/users \
   -H "Content-Type: application/json" \
@@ -189,6 +191,7 @@ curl -X POST http://localhost:3000/users \
 ---
 
 ### 7. Update with Invalid Data
+
 ```bash
 # First, create a user and note the ID
 
@@ -201,12 +204,11 @@ curl -X PATCH http://localhost:3000/users/1 \
 ```
 
 **Expected Error:**
+
 ```json
 {
   "statusCode": 400,
-  "message": [
-    "email must be an email"
-  ],
+  "message": ["email must be an email"],
   "error": "Bad Request"
 }
 ```
@@ -216,6 +218,7 @@ curl -X PATCH http://localhost:3000/users/1 \
 ## 🎯 What's Happening?
 
 ### Before DTOs
+
 ```
 Client → Controller → Database
          ❌ No validation!
@@ -223,6 +226,7 @@ Client → Controller → Database
 ```
 
 ### After DTOs
+
 ```
 Client → ValidationPipe → DTO → Controller → Database
          ✅ Validates format
@@ -235,13 +239,13 @@ Client → ValidationPipe → DTO → Controller → Database
 
 ## 📚 Validation Rules in Action
 
-| Field | Rules | Example Error |
-|-------|-------|---------------|
-| `email` | Must be valid email format | "Please provide a valid email address" |
-| `name` | Min 2 characters (optional) | "Name must be at least 2 characters long" |
-| `profile.bio` | Min 10 characters (optional) | "bio must be longer than or equal to 10 characters" |
-| `profile.avatar` | Valid URL (optional) | "Avatar must be a valid URL" |
-| `profile.website` | Valid URL (optional) | "Website must be a valid URL" |
+| Field             | Rules                        | Example Error                                       |
+| ----------------- | ---------------------------- | --------------------------------------------------- |
+| `email`           | Must be valid email format   | "Please provide a valid email address"              |
+| `name`            | Min 2 characters (optional)  | "Name must be at least 2 characters long"           |
+| `profile.bio`     | Min 10 characters (optional) | "bio must be longer than or equal to 10 characters" |
+| `profile.avatar`  | Valid URL (optional)         | "Avatar must be a valid URL"                        |
+| `profile.website` | Valid URL (optional)         | "Website must be a valid URL"                       |
 
 ---
 
@@ -264,6 +268,7 @@ Client → ValidationPipe → DTO → Controller → Database
 ## 💡 Try These Experiments
 
 ### Experiment 1: Remove a Validation Rule
+
 1. Open `src/users/dto/create-user.dto.ts`
 2. Comment out `@IsEmail()`
 3. Restart the app
@@ -271,12 +276,14 @@ Client → ValidationPipe → DTO → Controller → Database
 5. Uncomment to restore validation
 
 ### Experiment 2: Add New Validation
+
 1. Open `src/users/dto/create-user.dto.ts`
 2. Add `@MinLength(3)` to email field
 3. Restart the app
 4. Try `"email": "a@b.c"` - should fail!
 
 ### Experiment 3: Test Optional Fields
+
 1. Try creating user WITHOUT name - should work
 2. Try creating user with `"name": "J"` - should fail (too short)
 3. Try creating user with `"name": "Jo"` - should work
@@ -286,6 +293,7 @@ Client → ValidationPipe → DTO → Controller → Database
 ## 🚨 Common Mistakes
 
 ### Mistake 1: Forgetting to restart after DTO changes
+
 ```bash
 # DTOs are compiled, so you need to restart
 # With --watch, it should auto-restart
@@ -293,6 +301,7 @@ npm run start:dev
 ```
 
 ### Mistake 2: Using wrong HTTP method
+
 ```bash
 # ❌ Wrong
 curl -X GET http://localhost:3000/users -d '{...}'
@@ -302,6 +311,7 @@ curl -X POST http://localhost:3000/users -d '{...}'
 ```
 
 ### Mistake 3: Forgetting Content-Type header
+
 ```bash
 # ❌ Wrong (will be interpreted as form data)
 curl -X POST http://localhost:3000/users -d '{...}'
@@ -339,9 +349,11 @@ curl -X POST http://localhost:3000/users \
    - Add conditional validation
 
 3. **Add Swagger Documentation:**
+
    ```bash
    npm install @nestjs/swagger swagger-ui-express
    ```
+
    Then add `@ApiProperty()` to DTOs for auto-generated API docs
 
 4. **Add Response Transformation:**
@@ -351,4 +363,3 @@ curl -X POST http://localhost:3000/users \
 ---
 
 **Remember:** DTOs are your API's contract with the outside world. Good validation = happy developers and secure applications! 🛡️
-
