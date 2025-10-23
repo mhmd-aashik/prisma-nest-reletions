@@ -10,6 +10,12 @@ import {
   ParseIntPipe,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
+import {
+  CreateUserDto,
+  CreateUserWithProfileDto,
+  UpdateUserDto,
+  UpdateProfileDto,
+} from './dto';
 
 /**
  * USERS CONTROLLER
@@ -30,9 +36,13 @@ export class UsersController {
    *   "email": "john@example.com",
    *   "name": "John Doe"
    * }
+   * 
+   * Now with DTO validation:
+   * - Email is validated (must be valid email format)
+   * - Name is optional but must be at least 2 characters
    */
   @Post()
-  create(@Body() createUserDto: { email: string; name?: string }) {
+  create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
   }
 
@@ -45,25 +55,20 @@ export class UsersController {
    *   "email": "jane@example.com",
    *   "name": "Jane Doe",
    *   "profile": {
-   *     "bio": "Software Developer",
+   *     "bio": "Software Developer with 5+ years experience",
    *     "avatar": "https://example.com/avatar.jpg",
    *     "website": "https://janedoe.com"
    *   }
    * }
+   * 
+   * Now with DTO validation:
+   * - Email must be valid
+   * - Profile.bio must be at least 10 characters
+   * - Avatar and website must be valid URLs
+   * - Nested validation with @ValidateNested
    */
   @Post('with-profile')
-  createWithProfile(
-    @Body()
-    createUserDto: {
-      email: string;
-      name?: string;
-      profile: {
-        bio?: string;
-        avatar?: string;
-        website?: string;
-      };
-    },
-  ) {
+  createWithProfile(@Body() createUserDto: CreateUserWithProfileDto) {
     return this.usersService.createWithProfile(createUserDto);
   }
 
@@ -102,11 +107,16 @@ export class UsersController {
    * {
    *   "name": "John Smith"
    * }
+   * 
+   * Now with DTO validation:
+   * - All fields are optional (PartialType)
+   * - If email is provided, it must be valid
+   * - If name is provided, it must be at least 2 characters
    */
   @Patch(':id')
   update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() updateUserDto: { email?: string; name?: string },
+    @Body() updateUserDto: UpdateUserDto,
   ) {
     return this.usersService.update(id, updateUserDto);
   }
@@ -117,14 +127,18 @@ export class UsersController {
    * 
    * Example body:
    * {
-   *   "bio": "Updated bio",
+   *   "bio": "Updated bio with at least 10 characters",
    *   "website": "https://newwebsite.com"
    * }
+   * 
+   * Now with DTO validation:
+   * - Bio must be at least 10 characters if provided
+   * - Avatar and website must be valid URLs if provided
    */
   @Patch(':id/profile')
   updateProfile(
     @Param('id', ParseIntPipe) id: number,
-    @Body() updateProfileDto: { bio?: string; avatar?: string; website?: string },
+    @Body() updateProfileDto: UpdateProfileDto,
   ) {
     return this.usersService.updateProfile(id, updateProfileDto);
   }
